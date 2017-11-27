@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="cn.easybuy.dao.user.UserMapper">
+ 	<!-- 增加用户 -->
+ 	<insert id="add"  parameterType="User">
+ 		 INSERT INTO easybuy_user(loginName,userName,password,sex,identityCode,email,mobile,type) VALUES(#{loginName},#{userName},#{password},#{sex},#{identityCode},#{email},#{mobile},#{type})
+ 	</insert> 
+ 	<!-- 修改用户信息 -->
+ 	<update id="update" parameterType="User">
+ 		update easybuy_user
+ 			<set>
+ 				<if test="loginName != null">loginName = #{loginName},</if>
+ 				<if test="userName != null">userName = #{userName},</if>
+ 				<if test="password != null">password = #{password},</if>
+ 				<if test="sex != null">sex = #{sex},</if>
+ 				<if test="identityCode != null">identityCode = #{identityCode},</if>
+ 				<if test="email != null">email = #{email},</if>
+ 				<if test="mobile != null">mobile = #{mobile},</if>
+ 				<if test="type != null">type = #{type},</if>
+ 			</set>
+ 	</update>
+ 	<!-- 删除用户信息 -->
+ 	<delete id="delete" parameterType="Integer">
+ 		delete from easybuy_user where id = #{id}
+ 	</delete>
+ 	<!-- 查看用户信息 -->
+ 	<select id="selectById" parameterType="Integer"  resultType="User">
+ 		select * from  easybuy_user where id=#{id}
+ 	</select>
+ 	<!-- 根据登录名称 查询 用户信息 -->
+ 	<select id="selectByName" parameterType="String"  resultType="User">
+ 		select * from  easybuy_user where loginName=#{loginName}
+ 	</select>
+ 	<resultMap type="User" id="userList">
+		<result property="id" column="id"/>
+		<result property="loginName" column="loginName"/>
+		<result property="userName" column="userName"/>
+		<result property="password" column="password"/>
+		<result property="sex" column="sex"/>
+		<result property="identityCode" column="identityCode"/>
+		<result property="email" column="email"/>
+		<result property="mobile" column="mobile"/>
+		<result property="type" column="type"/>
+	</resultMap>
+ 	<!-- 分页显示用户信息列表 -->
+ 	<select id="getUserList" resultMap="userList">
+ 		select *  from  easybuy_user limit #{from},#{pageSize}
+ 	</select>
+ 	<!-- 显示总记录数 -->
+ 	<select id="count" resultType="Integer">
+ 		select count(1) from easybuy_user
+ 	</select>
+ </mapper>

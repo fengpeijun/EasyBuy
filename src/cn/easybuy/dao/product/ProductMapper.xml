@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="cn.easybuy.dao.user.ProductMapper">
+ 	<!-- 增加用户 -->
+ 	<insert id="add"  parameterType="Product">
+ 		 INSERT INTO easybuy_product(name,description,price,stock,categoryLevel1Id,categoryLevel2Id,categoryLevel3Id,fileName,isDelete) 
+ 		 		VALUES(#{name},#{description},#{price},#{stock},#{categoryLevel1Id},#{categoryLevel2Id},#{categoryLevel3Id},#{fileName},#{isDelete})
+ 	</insert> 
+ 	<!-- 修改信息 -->
+ 	<update id="update" parameterType="Product">
+ 		update easybuy_product
+ 			<set>
+ 				<if test="name != null">name = #{name},</if>
+ 				<if test="description != null">description = #{description},</if>
+ 				<if test="price != null">price = #{price},</if>
+ 				<if test="stock != null">stock = #{stock},</if>
+ 				<if test="categoryLevel1Id != null">categoryLevel1Id = #{categoryLevel1Id},</if>
+ 				<if test="categoryLevel2Id != null">categoryLevel2Id = #{categoryLevel2Id},</if>
+ 				<if test="categoryLevel3Id != null">categoryLevel3Id = #{categoryLevel3Id},</if>
+ 				<if test="fileName != null">fileName = #{fileName},</if>
+ 				<if test="isDelete != null">isDelete = #{isDelete},</if>
+ 			</set>
+ 	</update>
+ 	<select id="updateStock" resultType="Product">
+ 			update easybuy_product
+ 			<set>
+ 				<if test="name != null">name = #{name},</if>
+ 				<if test="description != null">description = #{description},</if>
+ 				<if test="price != null">price = #{price},</if>
+ 				<if test="categoryLevel1Id != null">categoryLevel1Id = #{categoryLevel1Id},</if>
+ 				<if test="categoryLevel2Id != null">categoryLevel2Id = #{categoryLevel2Id},</if>
+ 				<if test="categoryLevel3Id != null">categoryLevel3Id = #{categoryLevel3Id},</if>
+ 				<if test="fileName != null">fileName = #{fileName},</if>
+ 				<if test="isDelete != null">isDelete = #{isDelete},</if>
+ 			</set>
+ 			where  stock=#{stock} and id=#{id}
+ 	</select>
+ 	<!-- 删除信息 -->
+ 	<delete id="deleteProductById" parameterType="Integer">
+ 		delete from easybuy_product where id = #{id}
+ 	</delete>
+ 	<!-- 查看信息 -->
+ 	<select id="getProductById" parameterType="Integer"  resultType="Product">
+ 		select * from  easybuy_product where id=#{id}
+ 	</select>
+ 	<resultMap type="Product " id="productList">
+		<result property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="description" column="description"/>
+		<result property="price" column="price"/>
+		<result property="stock" column="stock"/>
+		<result property="categoryLevel1Id" column="categoryLevel1Id"/>
+		<result property="categoryLevel2Id" column="categoryLevel2Id"/>
+		<result property="categoryLevel3Id" column="categoryLevel3Id"/>
+		<result property="fileName" column="fileName"/>
+	</resultMap>
+ 	<!-- 分页显示信息列表 -->
+ 	<select id="getProductList" resultType="Product">
+ 		select * from easybuy_product limit #{currentPageNo},#{pageSize}
+ 	</select>
+ 	<!-- 显示总记录数 -->
+ 	<select id="count" resultType="Integer">
+ 		select count(1) from easybuy_product
+ 	</select>
+ </mapper>

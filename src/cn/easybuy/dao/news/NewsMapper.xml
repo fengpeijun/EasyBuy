@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kawa.dao.UserMapper">
+	 <resultMap type="User" id="userRol">
+		<id property="id" column="id"/>
+		<result property="userc" column="use"/>
+		<association property="role" javaType="r_id">
+			<id property="id" column="r-od"/>
+			<result property="role" column="rolec"/>
+			<result property="ro" column="rolename"/>
+		</association>
+	</resultMap>
+	<select id="gets" parameterType="in" resultMap="user">
+	</select>
+
+	
+	<select id="count" resultType="int">
+		SELECT COUNT(1) AS COUNT FROM `user`
+	</select>
+	
+	<select id="getuser" resultType="User">
+		SELECT * FROM `user` 
+	</select>
+		
+	
+	<select id="user" resultType="User" parameterType="int">
+		SELECT * FROM`user` WHERE id=#{id}
+	</select>
+</mapper>
